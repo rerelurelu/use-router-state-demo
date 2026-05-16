@@ -11,6 +11,11 @@ export default function UsersIndex() {
           「渡辺 翔太」は通信失敗をシミュレートします。名前の先出しは走り、
           loader 失敗後はメインだけエラー表示に切り替わります（サイドバーは維持）。
         </p>
+        <p className="text-sm opacity-50">
+          詳細ページの「プロフィール / 活動履歴」タブは pending.matches 由来です。
+          両タブとも params は同一なので、クリック時にどちらへ向かうかは
+          ルートIDでしか判別できません。ハイライトは URL 確定を待たず即座に移ります。
+        </p>
       </div>
     </div>
   );

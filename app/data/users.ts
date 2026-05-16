@@ -1,4 +1,4 @@
-// 詳細APIのレスポンス（全フィールド）。
+// 詳細APIのレスポンス（全フィールド）
 export type User = {
   id: string;
   name: string;
@@ -9,10 +9,10 @@ export type User = {
   bio: string;
 };
 
-// 一覧APIのレスポンス（id と name のみ）。
+// 一覧APIのレスポンス（id と name のみ）
 export type UserSummary = Pick<User, "id" | "name">;
 
-// サーバ側のデータ。モジュール外には公開しない。
+// サーバ側のデータ。モジュール外には公開しない
 const users: User[] = [
   {
     id: "1",
@@ -65,15 +65,56 @@ function getUser(id: string | undefined): User | undefined {
   return users.find((u) => u.id === id);
 }
 
-// 一覧API。id と name のみ返す。
+// 一覧API。id と name のみ返す
 export function getUserList(): UserSummary[] {
   return users.map(({ id, name }) => ({ id, name }));
 }
 
-// このIDの詳細取得は失敗させる（失敗時の挙動を確認するため）。
+// 名前だけを即時に返す。詳細レイアウトの見出し用
+export function getUserName(id: string | undefined): string | undefined {
+  return users.find((u) => u.id === id)?.name;
+}
+
+// 活動履歴の1件
+export type ActivityEntry = {
+  id: string;
+  date: string;
+  action: string;
+};
+
+const activities: Record<string, ActivityEntry[]> = {
+  "1": [
+    { id: "a1", date: "2026-05-15", action: "設計レビューを承認" },
+    { id: "a2", date: "2026-05-12", action: "PR #482 をマージ" },
+    { id: "a3", date: "2026-05-08", action: "若手の1on1を実施" },
+  ],
+  "2": [
+    { id: "a1", date: "2026-05-16", action: "ユーザーインタビューを3件実施" },
+    { id: "a2", date: "2026-05-10", action: "プロトタイプ v3 を共有" },
+  ],
+  "3": [
+    { id: "a1", date: "2026-05-14", action: "アーキテクチャ提案書を更新" },
+    { id: "a2", date: "2026-05-09", action: "採用面接を2件担当" },
+  ],
+  "4": [
+    { id: "a1", date: "2026-05-13", action: "オンボーディング改善案をレビュー" },
+    { id: "a2", date: "2026-05-07", action: "四半期目標を更新" },
+  ],
+  "5": [{ id: "a1", date: "2026-05-11", action: "ダッシュボードを公開" }],
+};
+
+// 活動履歴API。タブ切り替え時に pending を観察するため遅延させている
+export async function getUserActivity(
+  id: string | undefined,
+): Promise<ActivityEntry[]> {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return id ? (activities[id] ?? []) : [];
+}
+
+// このIDの詳細取得は失敗させる（失敗時の挙動を確認するため）
 const FAILING_IDS = new Set(["5"]);
 
-// 詳細API。全フィールドを返す。遅延は pending を観察するための擬似的なもの。
+// 詳細API。全フィールドを返す。遅延は pending を観察するための擬似的なもの
 export async function getUserSlow(
   id: string | undefined,
 ): Promise<User | undefined> {
