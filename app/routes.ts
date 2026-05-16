@@ -9,4 +9,8 @@ export default [
       route("activity", "routes/users.detail.activity.tsx"),
     ]),
   ]),
+  route("steps", "routes/steps.tsx", [
+    index("routes/steps.index.tsx"),
+    route(":step", "routes/steps.step.tsx"),
+  ]),
 ] satisfies RouteConfig;
