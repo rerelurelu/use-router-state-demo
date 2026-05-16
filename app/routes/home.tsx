@@ -1,12 +1,10 @@
-import type { Route } from "./+types/home";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
-}
-
 export default function Home() {
-  return <div className="flex flex-col items-center justify-center h-screen">Home</div>;
+  return (
+    <div className="flex h-screen flex-col items-center justify-center gap-4">
+      <h1 className="text-2xl font-bold">useRouterState Demo</h1>
+      <a href="/users" className="btn btn-primary">
+        デモを見る
+      </a>
+    </div>
+  );
 }
