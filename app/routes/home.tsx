@@ -37,6 +37,10 @@ export default function Home() {
           </span>
         </a>
       </div>
+
+      <a href="/guide" className="link link-hover text-sm opacity-60">
+        useRouterState の解説とこのデモの構成を読む →
+      </a>
     </div>
   );
 }
