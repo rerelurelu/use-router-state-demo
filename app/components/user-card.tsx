@@ -17,7 +17,11 @@ function Field({ label, value }: { label: string; value?: string }) {
 // 詳細レイアウト配下（見出しは親が描画）でも単体でも使う
 export function UserFields({ detail }: { detail?: User }) {
   return (
-    <dl className="divide-y divide-base-200">
+    // detail 未確定の間はスケルトンを描くので、読み込み中であることを読み上げさせる
+    <dl
+      role={detail === undefined ? "status" : undefined}
+      className="divide-y divide-base-200"
+    >
       <Field label="役職" value={detail?.title} />
       <Field label="部署" value={detail?.department} />
       <Field label="メール" value={detail?.email} />

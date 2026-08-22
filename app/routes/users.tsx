@@ -29,7 +29,10 @@ export default function UsersLayout({ loaderData }: Route.ComponentProps) {
   return (
     <div className="min-h-screen bg-base-200 p-6">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-6 text-2xl font-bold">useRouterState デモ</h1>
+        <Link to="/" className="link link-hover text-sm opacity-60">
+          ← トップに戻る
+        </Link>
+        <h1 className="mt-2 mb-6 text-2xl font-bold">useRouterState デモ</h1>
 
         <div className="grid grid-cols-[200px_1fr] gap-6">
           <aside className="flex flex-col gap-2">
@@ -58,7 +61,6 @@ export default function UsersLayout({ loaderData }: Route.ComponentProps) {
           </main>
         </div>
 
-        {/* デバッグ表示: active と pending の中身 */}
         <details className="collapse-arrow collapse mt-6 border border-base-300 bg-base-100">
           <summary className="collapse-title text-sm font-medium">
             useRouterState の中身を見る
