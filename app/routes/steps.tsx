@@ -3,7 +3,7 @@ import { unstable_useRouterState as useRouterState } from "react-router";
 
 function StepSkeleton() {
   return (
-    <div className="flex flex-col gap-3">
+    <div role="status" className="flex flex-col gap-3">
       <div className="skeleton h-4 w-20 rounded" />
       <div className="skeleton h-6 w-48 rounded" />
       <div className="skeleton h-4 w-full rounded" />
@@ -17,10 +17,24 @@ export default function StepsLayout() {
 
   const step = Number(active.params.step ?? 1);
 
+  // スライドの向きはステップ番号の増減で決める。ブラウザの戻る／進むは
+  // どちらも POP なので、pending.type だけでは前進か後退かを判別できない。
+  // REPLACE（最初からやり直す）は前後の移動ではないのでフェードにする。
+  let animClass = "anim-fade";
+  if (pending && pending.type !== "REPLACE") {
+    const targetStep = Number(pending.params.step ?? 1);
+    animClass = targetStep < step ? "anim-back" : "anim-forward";
+  }
+
   return (
     <div className="min-h-screen bg-base-200 p-6">
       <div className="mx-auto max-w-xl">
-        <h1 className="mb-6 text-2xl font-bold">pending.type デモ（ステップ遷移）</h1>
+        <Link to="/" className="link link-hover text-sm opacity-60">
+          ← トップに戻る
+        </Link>
+        <h1 className="mt-2 mb-6 text-2xl font-bold">
+          pending.type デモ（ステップ遷移）
+        </h1>
 
         <div className="card border border-base-300 bg-base-100 shadow">
           <div className="card-body">
@@ -28,9 +42,7 @@ export default function StepsLayout() {
               {pending ? (
                 <div
                   key={pending.location.key}
-                  className={
-                    pending.type === "PUSH" ? "anim-forward" : "anim-fade"
-                  }
+                  className={animClass}
                 >
                   <StepSkeleton />
                 </div>
@@ -40,9 +52,13 @@ export default function StepsLayout() {
             </div>
 
             <div className="mt-6 flex items-center justify-between gap-2">
+              {/* ステップ1には戻り先のステップが無いので押せなくする。
+                  履歴の深さは見ていないため、/steps/2 以降を直接開いた場合は
+                  押せる状態のままになる */}
               <button
                 type="button"
                 className="btn btn-ghost btn-sm"
+                disabled={step <= 1}
                 onClick={() => navigate(-1)}
               >
                 ← 戻る（POP）
@@ -66,13 +82,6 @@ export default function StepsLayout() {
           </div>
         </div>
 
-        <p className="mt-4 text-sm opacity-60">
-          「次へ」（PUSH）のときだけスケルトンが前進方向にスライドします。
-          ブラウザの戻る／進むはどちらも POP で区別がつかないため、前進・後退の
-          双方向対応は意図的に対象外とし、PUSH 以外はフェードにしています。
-          loader を 0.8 秒遅延させているため、コミットまでの間はスケルトンです。
-        </p>
-
         <details className="collapse-arrow collapse mt-6 border border-base-300 bg-base-100">
           <summary className="collapse-title text-sm font-medium">
             useRouterState の中身を見る
@@ -86,8 +95,13 @@ export default function StepsLayout() {
                     type: active.type,
                   },
                   pending: pending
-                    ? { pathname: pending.location.pathname, type: pending.type }
+                    ? {
+                        pathname: pending.location.pathname,
+                        type: pending.type,
+                        step: pending.params.step,
+                      }
                     : null,
+                  animClass,
                 },
                 null,
                 2,
