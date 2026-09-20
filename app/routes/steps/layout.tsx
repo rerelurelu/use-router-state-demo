@@ -69,7 +69,7 @@ export default function StepsLayout() {
         </div>
       </Card>
 
-      <StateInspector />
+      <StateInspector fields={["type"]} />
     </PageShell>
   );
 }

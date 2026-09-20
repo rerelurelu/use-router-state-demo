@@ -85,7 +85,7 @@ export default function PortalLayout() {
             )}
           </div>
 
-          <StateInspector />
+          <StateInspector fields={["matches"]} />
         </main>
       </div>
     </div>

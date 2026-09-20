@@ -54,7 +54,7 @@ export default function UsersLayout({ loaderData }: Route.ComponentProps) {
         </div>
       </div>
 
-      <StateInspector />
+      <StateInspector fields={["params"]} />
     </PageShell>
   );
 }
