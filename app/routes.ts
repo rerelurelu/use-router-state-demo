@@ -3,7 +3,10 @@ import { type RouteConfig, index, route } from "@react-router/dev/routes";
 export default [
   index("routes/home.tsx"),
   route("guide", "routes/guide.tsx"),
-  route("nav-order", "routes/nav-order.tsx"),
+  route("data-mode", "routes/data-mode/layout.tsx", [
+    index("routes/data-mode/index.tsx"),
+    route(":articleId", "routes/data-mode/article.tsx"),
+  ]),
   route("users", "routes/users/layout.tsx", [
     index("routes/users/index.tsx"),
     route(":userId", "routes/users/detail/layout.tsx", [

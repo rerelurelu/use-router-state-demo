@@ -10,12 +10,12 @@ export default function Home() {
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <a
-          href="/nav-order"
+          href="/data-mode"
           className="btn btn-primary h-auto flex-col items-start gap-1 py-3 text-left"
         >
-          <span className="text-base">遷移モデルの違い</span>
+          <span className="text-base">Data Mode の画面遷移</span>
           <span className="text-xs font-normal opacity-80">
-            render してから取得する形と、取得してから render する形を並べる
+            loader が終わるまで画面が動かない、素の挙動
           </span>
         </a>
         <a
