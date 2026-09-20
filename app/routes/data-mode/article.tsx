@@ -15,9 +15,6 @@ export default function ArticleDetail({ loaderData }: Route.ComponentProps) {
   return (
     <article className="flex flex-col gap-3">
       <h2 className="text-lg font-bold">{article.title}</h2>
-      <p className="font-mono text-xs opacity-60">
-        {article.author} / {article.publishedAt}
-      </p>
       <p className="text-sm leading-relaxed opacity-80">{article.body}</p>
     </article>
   );
