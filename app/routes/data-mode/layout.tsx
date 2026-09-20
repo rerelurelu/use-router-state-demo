@@ -9,6 +9,9 @@ export async function loader() {
   return { articles: getArticleList() };
 }
 
+// 記事詳細の loader が 900ms かかるので、リンクを押してからその間、
+// URL も一覧の選択も本文も変わらない。この素の挙動を見せるページなので、
+// 画面には解説を置かず、実際のシステムと同じ見た目にしてある
 export default function DataModeLayout({ loaderData }: Route.ComponentProps) {
   const { articles } = loaderData;
   // useParams は URL が確定してから更新される。つまり選択の見た目も
@@ -16,11 +19,7 @@ export default function DataModeLayout({ loaderData }: Route.ComponentProps) {
   const { articleId } = useParams();
 
   return (
-    <PageShell
-      maxWidth="max-w-3xl"
-      title="記事を開くまでの間、画面は動かない"
-      description="記事詳細の取得には 900ms かかります。リンクを押してからその 900ms の間、URL も一覧の選択も本文も変わりません。切り替わったときには中身が入っています。"
-    >
+    <PageShell maxWidth="max-w-3xl" title="ナレッジベース">
       <Card>
         <div className="grid grid-cols-[minmax(0,11rem)_1fr] gap-6">
           <nav aria-label="記事一覧" className="flex flex-col gap-2">
@@ -45,11 +44,6 @@ export default function DataModeLayout({ loaderData }: Route.ComponentProps) {
           </main>
         </div>
       </Card>
-
-      <p className="text-sm opacity-60">
-        押してから画面が変わるまで、ブラウザのアドレスバーも変わりません。
-        遷移が確定するのは loader が終わったあとで、それまでは 1 つ前の画面が表示されたままです。
-      </p>
     </PageShell>
   );
 }
