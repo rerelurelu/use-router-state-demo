@@ -12,7 +12,6 @@ import {
 } from "~/features/portal/handle";
 import { tabFromRouteId } from "~/features/portal/project-card";
 import { ScopeSkeleton } from "~/features/portal/skeleton";
-import { usePendingBoundary } from "~/lib/pending-boundary";
 import { ROUTE_IDS } from "~/lib/route-ids";
 
 export const handle = {
@@ -32,7 +31,6 @@ export default function PortalLayout() {
   const chrome = usePendingHandle();
   const breadcrumbs = usePendingBreadcrumbs();
   const { isOutletPending, skeleton } = usePendingScope(ROUTE_IDS.portal);
-  const boundary = usePendingBoundary();
 
   // ナビのハイライトは pending.matches を優先し、遷移確定前に切り替える
   const matches = pending?.matches ?? active.matches;
@@ -87,17 +85,7 @@ export default function PortalLayout() {
             )}
           </div>
 
-          <StateInspector
-            data={{
-              activeMatchIds: active.matches.map((m) => m.id),
-              pendingMatchIds: pending
-                ? pending.matches.map((m) => m.id)
-                : null,
-              boundary,
-              resolvedHandle: chrome,
-              breadcrumbs,
-            }}
-          />
+          <StateInspector />
         </main>
       </div>
     </div>

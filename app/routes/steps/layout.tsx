@@ -69,22 +69,7 @@ export default function StepsLayout() {
         </div>
       </Card>
 
-      <StateInspector
-        data={{
-          active: {
-            pathname: active.location.pathname,
-            type: active.type,
-          },
-          pending: pending
-            ? {
-                pathname: pending.location.pathname,
-                type: pending.type,
-                step: pending.params.step,
-              }
-            : null,
-          animClass,
-        }}
-      />
+      <StateInspector />
     </PageShell>
   );
 }

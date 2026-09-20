@@ -54,21 +54,7 @@ export default function UsersLayout({ loaderData }: Route.ComponentProps) {
         </div>
       </div>
 
-      <StateInspector
-        data={{
-          active: {
-            pathname: active.location.pathname,
-            params: active.params,
-          },
-          pending: pending
-            ? {
-                pathname: pending.location.pathname,
-                params: pending.params,
-                state: pending.state,
-              }
-            : null,
-        }}
-      />
+      <StateInspector />
     </PageShell>
   );
 }
