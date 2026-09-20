@@ -10,6 +10,15 @@ export default function Home() {
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <a
+          href="/nav-order"
+          className="btn btn-primary h-auto flex-col items-start gap-1 py-3 text-left"
+        >
+          <span className="text-base">遷移モデルの違い</span>
+          <span className="text-xs font-normal opacity-80">
+            render してから取得する形と、取得してから render する形を並べる
+          </span>
+        </a>
+        <a
           href="/users"
           className="btn btn-primary h-auto flex-col items-start gap-1 py-3 text-left"
         >
