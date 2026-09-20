@@ -28,7 +28,7 @@ export default function Home() {
           </span>
         </a>
         <a
-          href="/console"
+          href="/portal"
           className="btn btn-primary h-auto flex-col items-start gap-1 py-3 text-left"
         >
           <span className="text-base">差し替わる範囲を絞ったローディング</span>

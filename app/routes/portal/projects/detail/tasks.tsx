@@ -1,6 +1,6 @@
 import { getProjectTasks } from "~/data/projects";
-import { type RouteHandle } from "~/lib/pending-scope";
-import type { Route } from "./+types/console.projects.detail.tasks";
+import { type RouteHandle } from "~/features/portal/handle";
+import type { Route } from "./+types/tasks";
 
 export const handle = {
   title: "タスク",

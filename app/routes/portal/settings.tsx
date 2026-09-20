@@ -1,6 +1,6 @@
 import { getSettings } from "~/data/projects";
-import { type RouteHandle } from "~/lib/pending-scope";
-import type { Route } from "./+types/console.settings";
+import { type RouteHandle } from "~/features/portal/handle";
+import type { Route } from "./+types/settings";
 
 export const handle = {
   title: "設定",

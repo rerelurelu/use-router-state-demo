@@ -1,4 +1,7 @@
-// 詳細APIのレスポンス（全フィールド）
+import { delay } from "~/lib/delay";
+
+const DEMO_LATENCY_MS = 1500;
+
 export type User = {
   id: string;
   name: string;
@@ -9,7 +12,6 @@ export type User = {
   bio: string;
 };
 
-// 一覧APIのレスポンス（id と name のみ）
 export type UserSummary = Pick<User, "id" | "name">;
 
 // サーバ側のデータ。モジュール外には公開しない
@@ -65,25 +67,23 @@ function getUser(id: string | undefined): User | undefined {
   return users.find((u) => u.id === id);
 }
 
-// 一覧API。id と name のみ返す
 export function getUserList(): UserSummary[] {
   return users.map(({ id, name }) => ({ id, name }));
 }
 
 // 名前だけを即時に返す。詳細レイアウトの見出し用
 export function getUserName(id: string | undefined): string | undefined {
-  return users.find((u) => u.id === id)?.name;
+  return getUser(id)?.name;
 }
 
 // このIDの詳細取得は失敗させる（失敗時の挙動を確認するため）
-const FAILING_IDS = new Set(["5"]);
+const FAILING_ID = "5";
 
-// 詳細API。全フィールドを返す。遅延は pending を観察するための擬似的なもの
 export async function getUserSlow(
   id: string | undefined,
 ): Promise<User | undefined> {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  if (id !== undefined && FAILING_IDS.has(id)) {
+  await delay(DEMO_LATENCY_MS);
+  if (id === FAILING_ID) {
     throw new Response("ユーザー情報の取得に失敗しました", { status: 500 });
   }
   return getUser(id);

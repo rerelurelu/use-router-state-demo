@@ -1,3 +1,7 @@
+import { delay } from "~/lib/delay";
+
+const DEMO_LATENCY_MS = 900;
+
 export type Project = {
   id: string;
   name: string;
@@ -62,33 +66,35 @@ const tasks: Record<string, Task[]> = {
   ],
 };
 
-// 一覧API。遅延なし
+// 遅延なし。一覧は遷移前から手元にある
 export function getProjectList(): Pick<Project, "id" | "name">[] {
   return projects.map(({ id, name }) => ({ id, name }));
 }
 
-// 名前だけを即時に返す。詳細レイアウトの見出し用
-export function getProjectName(id: string | undefined): string | undefined {
-  return projects.find((p) => p.id === id)?.name;
+function getProject(id: string | undefined): Project | undefined {
+  return projects.find((p) => p.id === id);
 }
 
-// 概要API。遅延は pending 状態を観察するための擬似的なもの
+// 名前だけを即時に返す。詳細レイアウトの見出し用
+export function getProjectName(id: string | undefined): string | undefined {
+  return getProject(id)?.name;
+}
+
 export async function getProjectOverview(
   id: string | undefined,
 ): Promise<Project> {
-  await new Promise((resolve) => setTimeout(resolve, 900));
-  const project = projects.find((p) => p.id === id);
+  await delay(DEMO_LATENCY_MS);
+  const project = getProject(id);
   if (!project) {
     throw new Response("Not Found", { status: 404 });
   }
   return project;
 }
 
-// タスク一覧API。遅延は pending 状態を観察するための擬似的なもの
 export async function getProjectTasks(
   id: string | undefined,
 ): Promise<Task[]> {
-  await new Promise((resolve) => setTimeout(resolve, 900));
+  await delay(DEMO_LATENCY_MS);
   return id ? (tasks[id] ?? []) : [];
 }
 
@@ -100,9 +106,8 @@ const reportRows = [
   { id: "r5", label: "今月の更新回数", value: "12" },
 ];
 
-// レポートAPI。遅延は pending 状態を観察するための擬似的なもの
 export async function getReportRows() {
-  await new Promise((resolve) => setTimeout(resolve, 900));
+  await delay(DEMO_LATENCY_MS);
   return reportRows;
 }
 
@@ -113,8 +118,7 @@ const settings = [
   { id: "s4", label: "タイムゾーン", value: "Asia/Tokyo" },
 ];
 
-// 設定API。遅延は pending 状態を観察するための擬似的なもの
 export async function getSettings() {
-  await new Promise((resolve) => setTimeout(resolve, 900));
+  await delay(DEMO_LATENCY_MS);
   return settings;
 }

@@ -1,4 +1,7 @@
-import type { Route } from "./+types/steps.step";
+import { delay } from "~/lib/delay";
+import type { Route } from "./+types/step";
+
+const DEMO_LATENCY_MS = 800;
 
 const STEPS: Record<string, { title: string; body: string }> = {
   "1": {
@@ -15,13 +18,12 @@ const STEPS: Record<string, { title: string; body: string }> = {
   },
 };
 
-// loader を遅延させ、コミット待ちの pending 期間を観察できるようにする。
 export async function loader({ params }: Route.LoaderArgs) {
   const content = STEPS[params.step ?? ""];
   if (!content) {
     throw new Response("Not Found", { status: 404 });
   }
-  await new Promise((resolve) => setTimeout(resolve, 800));
+  await delay(DEMO_LATENCY_MS);
   return { step: Number(params.step), ...content };
 }
 

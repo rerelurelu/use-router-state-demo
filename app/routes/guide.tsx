@@ -1,4 +1,11 @@
 import { Link } from "react-router";
+import { Card } from "~/components/card";
+import { PageShell } from "~/components/page-shell";
+import {
+  BOUNDARY_CASES,
+  DEMOS,
+  RETURN_VALUE,
+} from "~/features/guide/content";
 
 function Code({ children }: { children: string }) {
   return (
@@ -18,136 +25,20 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="card border border-base-300 bg-base-100 shadow">
-      <div className="card-body gap-4">
-        <h2 className="card-title text-lg">{title}</h2>
-        {children}
-      </div>
-    </section>
+    <Card as="section" id={id} bodyClassName="gap-4">
+      <h2 className="card-title text-lg">{title}</h2>
+      {children}
+    </Card>
   );
 }
 
-const RETURN_VALUE = [
-  {
-    field: "active.location",
-    desc: "表示中の URL",
-    before: "useLocation()",
-    isNew: false,
-  },
-  {
-    field: "active.searchParams",
-    desc: "表示中のクエリ文字列",
-    before: "useSearchParams()[0]",
-    isNew: false,
-  },
-  {
-    field: "active.params",
-    desc: "表示中の URL パラメータ",
-    before: "useParams()",
-    isNew: false,
-  },
-  {
-    field: "active.matches",
-    desc: "表示中のルートの配列",
-    before: "useMatches()",
-    isNew: false,
-  },
-  {
-    field: "active.type",
-    desc: "直前の遷移の種類",
-    before: "useNavigationType()",
-    isNew: false,
-  },
-  {
-    field: "pending.location",
-    desc: "遷移先の URL",
-    before: "useNavigation().location",
-    isNew: false,
-  },
-  {
-    field: "pending.state",
-    desc: "loading / submitting（idle 時は pending 自体が null）",
-    before: "useNavigation().state",
-    isNew: false,
-  },
-  {
-    field: "pending.params",
-    desc: "遷移先の URL パラメータ",
-    before: "取得手段が無かった",
-    isNew: true,
-  },
-  {
-    field: "pending.matches",
-    desc: "遷移先にマッチするルートの配列",
-    before: "取得手段が無かった",
-    isNew: true,
-  },
-  {
-    field: "pending.type",
-    desc: "その遷移が PUSH / POP / REPLACE のどれか",
-    before: "取得手段が無かった",
-    isNew: true,
-  },
-];
-
-const DEMOS = [
-  {
-    to: "/users",
-    title: "pending.params",
-    file: "app/routes/users.tsx",
-    desc: "一覧で取得済みの名前を、詳細の loader を待たずに見出しへ先出しする。",
-  },
-  {
-    to: "/steps",
-    title: "pending.type",
-    file: "app/routes/steps.tsx",
-    desc: "ステップ番号が増える遷移は右から、減る遷移は左からスライド。REPLACE はフェードのみ。",
-  },
-  {
-    to: "/console",
-    title: "pending.matches",
-    file: "app/lib/pending-scope.ts",
-    desc: "差し替わる階層だけをスケルトンにして、handle でヘッダとカラム幅を先に切り替える。",
-  },
-];
-
-const BOUNDARY_CASES = [
-  {
-    move: "概要 → タスク",
-    boundary: "4",
-    scope: "サブナビの中身だけ",
-    owner: "console.projects.detail",
-  },
-  {
-    move: "プロジェクト 1 → 2",
-    boundary: "3",
-    scope: "見出しごと右カラム",
-    owner: "console.projects",
-  },
-  {
-    move: "プロジェクト → レポート",
-    boundary: "2",
-    scope: "サイドバー以外の全体",
-    owner: "console",
-  },
-];
-
 export default function Guide() {
   return (
-    <div className="min-h-screen bg-base-200 p-6">
-      <div className="mx-auto flex max-w-3xl flex-col gap-6">
-        <header>
-          <Link to="/" className="link link-hover text-sm opacity-60">
-            ← トップに戻る
-          </Link>
-          <h1 className="mt-2 text-2xl font-bold">
-            useRouterState の解説とこのデモの構成
-          </h1>
-          <p className="mt-2 text-sm opacity-70">
-            React Router v8 の unstable_useRouterState が何を返すのか、
-            このリポジトリでどう使っているのかをまとめています。
-          </p>
-        </header>
+    <PageShell
+      maxWidth="max-w-3xl"
+      title="useRouterState の解説とこのデモの構成"
+      description="React Router v8 の unstable_useRouterState が何を返すのか、このリポジトリでどう使っているのかをまとめています。"
+    >
 
         <Section id="return-value" title="1. 何が返るのか">
           <p className="text-sm leading-relaxed">
@@ -340,15 +231,15 @@ if (pending && pending.type !== "REPLACE") {
             だけで行っていて、「プロジェクト 1 → 2」の遷移でスケルトンが出ませんでした。
             この 2 つの URL はマッチするルートが完全に同じで、違うのは params だけだからです。
           </p>
-          <Code>{`/console/projects/1  → [root, console, projects, projects.detail, overview]
-/console/projects/2  → [root, console, projects, projects.detail, overview]
+          <Code>{`/portal/projects/1  → [root, portal, projects, projects.detail, overview]
+/portal/projects/2  → [root, portal, projects, projects.detail, overview]
                         ルート ID の配列は完全に一致する`}</Code>
           <p className="text-sm leading-relaxed">
             マッチオブジェクトの{" "}
             <code className="text-primary">pathname</code>{" "}
             はルータが階層ごとに計算した値なので、詳細レイアウトの位置で{" "}
-            <code className="text-primary">/console/projects/1</code> と{" "}
-            <code className="text-primary">/console/projects/2</code>{" "}
+            <code className="text-primary">/portal/projects/1</code> と{" "}
+            <code className="text-primary">/portal/projects/2</code>{" "}
             に分かれます。判定に <code className="text-primary">pathname</code>{" "}
             も加えることで params の変化を拾えます。
           </p>
@@ -365,7 +256,7 @@ if (pending && pending.type !== "REPLACE") {
             <code className="text-primary">matches</code>{" "}
             を使う必然性がここにあります。
           </p>
-          <Code>{`// app/routes/console.settings.tsx
+          <Code>{`// app/routes/portal/settings.tsx
 export const handle = {
   title: "設定",
   breadcrumb: "設定",
@@ -379,6 +270,20 @@ export const handle = {
             </code>{" "}
             を末尾から走査して値を解決します。pending 中は行き先の値になるので、
             ヘッダのパンくずとタイトル、中身のカラム幅がクリック直後に切り替わります。
+          </p>
+          <p className="text-sm leading-relaxed">
+            ただし <code className="text-primary">handle</code>{" "}
+            はルートモジュールの export なので、行き先のモジュールが読み込まれていない間は{" "}
+            <code className="text-primary">matches</code> の要素の{" "}
+            <code className="text-primary">handle</code> が{" "}
+            <code className="text-primary">undefined</code>{" "}
+            になります。ページを開いた直後の 1 回目の遷移がこれに当たり、
+            パンくずとタイトルは遷移前のまま、スケルトンも既定の形になります。
+            このデモの <code className="text-primary">Link</code> には{" "}
+            <code className="text-primary">prefetch="intent"</code>{" "}
+            を付けてあり、ホバーとフォーカスの時点で行き先のモジュールと loader
+            のデータを先読みするため、クリックした時には{" "}
+            <code className="text-primary">handle</code> が読める状態になっています。
           </p>
           <Code>{`export function usePendingBreadcrumbs(): { label: string; pathname: string }[] {
   const { active, pending } = useRouterState();
@@ -463,8 +368,7 @@ export const handle = {
               </a>
             </li>
           </ul>
-        </Section>
-      </div>
-    </div>
+      </Section>
+    </PageShell>
   );
 }

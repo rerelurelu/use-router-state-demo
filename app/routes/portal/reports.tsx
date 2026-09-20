@@ -1,6 +1,6 @@
 import { getReportRows } from "~/data/projects";
-import { type RouteHandle } from "~/lib/pending-scope";
-import type { Route } from "./+types/console.reports";
+import { type RouteHandle } from "~/features/portal/handle";
+import type { Route } from "./+types/reports";
 
 export const handle = {
   title: "レポート",
