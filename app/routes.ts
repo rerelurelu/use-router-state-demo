@@ -13,10 +13,7 @@ export default [
       index("routes/users/detail/profile.tsx"),
     ]),
   ]),
-  route("steps", "routes/steps/layout.tsx", [
-    index("routes/steps/index.tsx"),
-    route(":step", "routes/steps/step.tsx"),
-  ]),
+  route("products", "routes/products.tsx"),
   route("portal", "routes/portal/layout.tsx", [
     index("routes/portal/index.tsx"),
     route("projects", "routes/portal/projects/layout.tsx", [

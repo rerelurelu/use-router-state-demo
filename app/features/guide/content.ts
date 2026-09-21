@@ -70,10 +70,10 @@ export const DEMOS = [
     desc: "一覧で取得済みの名前を、詳細の loader を待たずに見出しへ先出しする。",
   },
   {
-    to: "/steps",
+    to: "/products",
     title: "pending.type",
-    file: "app/routes/steps/layout.tsx",
-    desc: "ステップ番号が増える遷移は右から、減る遷移は左からスライド。REPLACE はフェードのみ。",
+    file: "app/features/products/pending-list.tsx",
+    desc: "絞り込みは一覧を残し、ページ送りはスケルトン、戻るはバーだけ。pending.type で出し分ける。",
   },
   {
     to: "/portal",

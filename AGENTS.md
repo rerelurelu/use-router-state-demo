@@ -9,7 +9,7 @@ React Router v8 の `unstable_useRouterState` が何を返し、何が作れる�
 | URL       | 使う値            | 何を見せるか                                                 |
 | --------- | ----------------- | ------------------------------------------------------------ |
 | `/users`  | `pending.params`  | 一覧で取得済みの名前を、詳細の loader を待たずに見出しへ出す |
-| `/steps`  | `pending.type`    | PUSH / POP / REPLACE でスライドの向きを変える                |
+| `/products` | `pending.type` | 絞り込み・ページ送り・戻るで遷移中の見せ方を変える |
 | `/portal` | `pending.matches` | 差し替わる階層だけをスケルトンにする                         |
 | `/guide`  | —                 | 返り値の一覧と、上の 3 本の実装の解説                        |
 
@@ -37,7 +37,7 @@ app/
   routes/                ルートモジュール。URL の階層とディレクトリを一致させる
     home.tsx  guide.tsx
     users/    layout.tsx  index.tsx  detail/{layout,profile}.tsx
-    steps/    layout.tsx  index.tsx  step.tsx
+    products.tsx
     portal/   layout.tsx  index.tsx  reports.tsx  settings.tsx
               projects/   layout.tsx  index.tsx
                           detail/  layout.tsx  overview.tsx  tasks.tsx
