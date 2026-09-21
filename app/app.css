@@ -1,2 +1,47 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* ページ遷移アニメーション。ステップ番号が増えるときは右から、
+   減るときは左からスライドさせる。REPLACE はフェードのみ。 */
+@keyframes slide-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.anim-forward {
+  animation: slide-from-right 0.28s ease-out;
+}
+
+.anim-back {
+  animation: slide-from-left 0.28s ease-out;
+}
+
+.anim-fade {
+  animation: fade-in 0.28s ease-out;
+}

@@ -28,12 +28,12 @@ export default function Home() {
           </span>
         </a>
         <a
-          href="/products"
+          href="/steps"
           className="btn btn-primary h-auto flex-col items-start gap-1 py-3 text-left"
         >
-          <span className="text-base">履歴操作ごとの待ち方</span>
+          <span className="text-base">ステップ遷移のアニメーション</span>
           <span className="text-xs font-normal opacity-80">
-            絞り込み・ページ送り・戻るで表示を出し分け（pending.type）
+            遷移の種類でスケルトンを出し分け（pending.type）
           </span>
         </a>
         <a

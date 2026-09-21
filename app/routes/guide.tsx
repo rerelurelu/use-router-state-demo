@@ -139,23 +139,22 @@ const selectedUserId = pendingUserId ?? active.params.userId;`}</Code>
             が返すのは遷移が完了したあとの値なので、遷移中に PUSH か POP
             かを知る手段はこれまでありませんでした。
           </p>
-          <Code>{`// 遷移中に一覧をどう見せるかを pending.type だけで決める
-switch (pending.type) {
-  case "PUSH":    // ページ送り。中身が入れ替わるのでスケルトン
-    return <ProductListSkeleton />;
-  case "REPLACE": // 絞り込み。見ていた一覧は残して薄くする
-    return <div className="opacity-40"><ProductList /></div>;
-  case "POP":     // 戻る・進む。中身には触れず進行中だけ伝える
-    return <><ProgressBar /><ProductList /></>;
+          <Code>{`// スライドの向きはステップ番号の増減で決める。ブラウザの戻る／進むは
+// どちらも POP なので、pending.type だけでは前進か後退かを判別できない。
+// REPLACE（最初からやり直す）は前後の移動ではないのでフェードにする。
+let animClass = "anim-fade";
+if (pending && pending.type !== "REPLACE") {
+  const targetStep = Number(pending.params.step ?? 1);
+  animClass = targetStep < step ? "anim-back" : "anim-forward";
 }`}</Code>
           <p className="text-sm leading-relaxed">
-            絞り込みとページ送りはどちらも{" "}
-            <code className="text-primary">/products</code>{" "}
-            のままクエリだけが変わるので、URL の形からは区別できません。
-            履歴を積むかどうかは{" "}
-            <code className="text-primary">setSearchParams</code>{" "}
-            の呼び出し側で決めていて、その判断がそのまま{" "}
-            <code className="text-primary">pending.type</code> に出ます。
+            ブラウザの戻るも進むもどちらも POP なので、
+            <code className="text-primary">pending.type</code>{" "}
+            だけでは方向が決まりません。ウィザードのようにステップ番号がある画面では、
+            <code className="text-primary">pending.params</code>{" "}
+            の値と現在値の増減で向きを出せます。番号のような順序を持たないルートでは、
+            <code className="text-primary">location.key</code>{" "}
+            と履歴上の位置を対応付けて比べる方法があります。
           </p>
           <p className="text-sm leading-relaxed">
             <code className="text-primary">pending.type</code>{" "}
