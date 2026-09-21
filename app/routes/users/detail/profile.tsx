@@ -1,6 +1,6 @@
-import { UserFields } from "~/components/user-card";
+import { UserFields } from "~/features/users/user-card";
 import { getUserSlow } from "~/data/users";
-import type { Route } from "./+types/users.detail.profile";
+import type { Route } from "./+types/profile";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const user = await getUserSlow(params.userId);
@@ -14,7 +14,7 @@ export default function ProfileTab({ loaderData }: Route.ComponentProps) {
   return <UserFields detail={loaderData.user} />;
 }
 
-// 親レイアウト（名前・タブ）は生かしたまま、タブの中身だけエラー表示にする。
+// 親レイアウト（名前の見出し）は生かしたまま、詳細項目だけエラー表示にする
 export function ErrorBoundary() {
   return (
     <div className="rounded border border-error p-4">
